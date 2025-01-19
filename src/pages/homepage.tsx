@@ -55,7 +55,7 @@ const HomePage: React.FC = () => {
     fetchData();
   }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);
   
-  const fetchData = React.useCallback(async () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
       const res = await searchDogs({
@@ -78,8 +78,7 @@ const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  });
-
+  };
 
   const handleFilter = () => {
     setCurrentPage(1);
