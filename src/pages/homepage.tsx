@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Layout, Spin, message, Button } from "antd";
 import Sidebar from "@/components/Sidebar";
 import DogCard from "@/components/DogCard";
-import MatchBox from "@/components/MatchBox";
+import BoxMatch from "@/components/BoxMatch";
 import CustomPagination from "@/components/Pagination";
 import { searchDogs, fetchDogsByIds, matchDogs } from "@/services/dogs";
 import { Dog } from "@/utils/types";
@@ -228,7 +228,7 @@ const HomePage: React.FC = () => {
           />
         </Content>
 
-        <MatchBox
+        <BoxMatch
           isModalOpen={isMatchModalOpen}
           matchedDog={matchedDog}
           onOk={() => setIsMatchModalOpen(false)}

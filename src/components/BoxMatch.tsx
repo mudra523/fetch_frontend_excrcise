@@ -10,7 +10,7 @@ interface MatchBoxProps {
   onCancel: () => void;
 }
 
-const Match: React.FC<MatchBoxProps> = ({
+const BoxMatch: React.FC<MatchBoxProps> = ({
   isModalOpen,
   matchedDog,
   onOk,
@@ -78,4 +78,4 @@ const Match: React.FC<MatchBoxProps> = ({
   );
 };
 
-export default Match;
+export default BoxMatch.tsx;
