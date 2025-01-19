@@ -78,4 +78,4 @@ const BoxMatch: React.FC<MatchBoxProps> = ({
   );
 };
 
-export default BoxMatch.tsx;
+export default BoxMatch;
