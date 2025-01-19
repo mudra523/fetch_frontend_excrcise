@@ -10,6 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         withCredentials: true,
         headers: {
           'Content-Type': req.headers['content-type'] || 'application/json',
+          Cookie: req.headers.cookie || '', // Forward cookies from client
         },
       }
     );
