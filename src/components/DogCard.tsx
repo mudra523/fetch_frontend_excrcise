@@ -12,7 +12,11 @@ interface DogCardProps {
   onToggleFavorite: (id: string) => void;
 }
 
-const DogCard: React.FC<DogCardProps> = ({ dog, isFavorite, onToggleFavorite }) => {
+const DogCard: React.FC<DogCardProps> = ({
+  dog,
+  isFavorite,
+  onToggleFavorite,
+}) => {
   return (
     <Card
       hoverable
@@ -21,16 +25,18 @@ const DogCard: React.FC<DogCardProps> = ({ dog, isFavorite, onToggleFavorite }) 
         marginBottom: 16,
         borderRadius: 8,
         overflow: "hidden",
-        borderColor: "#278ea5",    
-        backgroundColor: "#f0fcff" 
+        borderColor: "#278ea5",
+        backgroundColor: "#f0fcff",
       }}
       cover={
-        <Image
-      alt={dog.name}
-      src={dog.img}
-      layout="fill"
-      objectFit="cover"
-    />
+        <div style={{ position: "relative", width: "100%", height: "200px" }}>
+          <Image
+            alt={dog.name}
+            src={dog.img || "/placeholder.png"}
+            layout="fill"
+            objectFit="cover"
+          />
+        </div>
       }
       actions={[
         isFavorite ? (

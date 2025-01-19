@@ -45,7 +45,7 @@ const BoxMatch: React.FC<MatchBoxProps> = ({
         <Card
           hoverable
           style={{
-            width: 240,
+            width: "full",
             borderRadius: 8,
             overflow: "hidden",
             borderColor: "#278ea5",
@@ -53,12 +53,16 @@ const BoxMatch: React.FC<MatchBoxProps> = ({
             color: "#fff",
           }}
           cover={
-            <Image
-              alt={matchedDog.name}
-              src={matchedDog.img}
-              layout="fill"
-              objectFit="cover"
-            />
+            <div
+              style={{ position: "relative", width: "100%", height: "200px" }}
+            >
+              <Image
+                alt={matchedDog.name}
+                src={matchedDog.img || "/placeholder.png"}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           }
         >
           <Row

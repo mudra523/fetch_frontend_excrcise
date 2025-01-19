@@ -74,11 +74,11 @@ const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);;
+  });
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);
 
   const handleFilter = () => {
     setCurrentPage(1);
@@ -143,6 +143,7 @@ const HomePage: React.FC = () => {
         background: "linear-gradient(to bottom right, #071e3d, #1f4287)",
       }}
     >
+      {console.log("Home", dogs)}
       <Sidebar
         breeds={breedList}
         selectedBreed={breed}
