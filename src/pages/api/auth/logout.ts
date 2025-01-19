@@ -1,3 +1,4 @@
+// pages/api/auth/logout.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
@@ -15,8 +16,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
     
     res.status(response.status).json(response.data);
-  } catch (error: any) {
-    console.error('Proxy logout error:', error.message);
-    res.status(error.response?.status || 500).json({ error: 'Proxy logout failed' });
+  } catch (error: unknown) {
+    let errorMessage = 'Proxy logout failed';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.error('Proxy logout error:', errorMessage);
+    const status = (error && typeof error === 'object' && 'response' in error && (error as any).response?.status) || 500;
+    res.status(status).json({ error: errorMessage });
   }
 }
