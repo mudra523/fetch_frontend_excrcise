@@ -13,6 +13,7 @@
     "@ant-design/nextjs-registry": "^1.0.2",
     "antd": "^5.23.1",
     "axios": "^1.7.9",
+    "babel-loader": "^9.2.1",
     "next": "^15.1.5",
     "next-transpile-modules": "^10.0.1",
     "rc-util": "^5.44.3",
