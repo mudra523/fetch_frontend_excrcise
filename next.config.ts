@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["frontend-take-home.fetch.com", "images.unsplash.com"],
   },
-  transpilePackages: ["rc-util"],
+  transpilePackages: ["rc-util", "rc-picker"],
 };
 
 export default nextConfig;
