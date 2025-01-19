@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       }
     );
-
+    console.log("response", response.headers)
     const cookies = response.headers['set-cookie'];
     if (cookies) {
       res.setHeader('Set-Cookie', cookies);

@@ -36,10 +36,10 @@ const BoxMatch: React.FC<MatchBoxProps> = ({
           OK
         </Button>,
       ]}
-      bodyStyle={{
-        backgroundColor: "#071e3d",
-        color: "#fff",
-      }}
+      // bodyStyle={{
+      //   backgroundColor: "#071e3d",
+      //   color: "#fff",
+      // }}
     >
       {matchedDog ? (
         <Card
