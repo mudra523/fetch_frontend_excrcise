@@ -15,17 +15,25 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 }) => {
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* HEADER */}
       <Header isLoggedIn={isLoggedIn} onLogout={onLogout} />
 
-      {/* MAIN CONTENT */}
-      <Row justify="center" style={{ flex: 1, backgroundColor: "#fafafa" }}>
-        <Col xs={24} sm={24} md={22} lg={22}>
-          <main style={{ padding: "16px 0" }}>{children}</main>
+      <Row 
+        justify="center" 
+        style={{ 
+          flex: 1, 
+          backgroundColor: "#1f4287", 
+        }}
+      >
+        <Col xs={24}>
+          <main style={{ 
+            padding: "16px", 
+            borderRadius: 8 
+          }}>
+            {children}
+          </main>
         </Col>
       </Row>
 
-      {/* FOOTER */}
       <Footer />
     </div>
   );

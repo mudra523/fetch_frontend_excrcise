@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Layout, Spin, message } from "antd";
+import { Row, Col, Layout, Spin, message, Button, Tag } from "antd";
 import Sidebar from "@/components/Sidebar";
 import DogCard from "@/components/DogCard";
+import MatchBox from "@/components/MatchBox";
 import CustomPagination from "@/components/Pagination";
-import { searchDogs, fetchDogsByIds } from "@/services/dogs";
+import { searchDogs, fetchDogsByIds, matchDogs } from "@/services/dogs";
 import { Dog } from "@/utils/types";
 
 const { Content } = Layout;
@@ -11,27 +12,38 @@ const { Content } = Layout;
 const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
-  // Filters
   const [breed, setBreed] = useState<string | null>(null);
   const [zipCode, setZipCode] = useState("");
   const [ageRange, setAgeRange] = useState<[number, number]>([1, 20]);
   const [sort, setSort] = useState("breed:asc");
-
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
 
-  // Data
   const [dogs, setDogs] = useState<Dog[]>([]);
 
-  // For breed dropdown (optional: you can fetch all possible breeds)
   const [breedList, setBreedList] = useState<string[]>([]);
 
-  // Fetch all possible breeds once
+  const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
+
+  const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
+  const [matchedDog, setMatchedDog] = useState<Dog | null>(null);
+  const [loadingMatch, setLoadingMatch] = useState(false);
+
+  useEffect(() => {
+    fetchBreeds();
+  }, []);
+
   const fetchBreeds = async () => {
     try {
-      const res = await fetch("https://frontend-take-home-service.fetch.com/dogs/breeds");
+      const res = await fetch(
+        "https://frontend-take-home-service.fetch.com/dogs/breeds",
+        { credentials: "include" }
+      );
+      if (!res.ok) {
+        console.warn("Failed to fetch breed list");
+        return;  
+      }
       const data = await res.json();
       setBreedList(data);
     } catch (error) {
@@ -40,22 +52,15 @@ const HomePage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchBreeds();
-  }, []);
-
-  // Whenever filter/pagination changes, fetch data
-  useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      // 1) Search to get resultIds
       const res = await searchDogs({
         size: pageSize,
-        from: (currentPage - 1) * pageSize, // offset
+        from: (currentPage - 1) * pageSize,
         breeds: breed ? [breed] : undefined,
         zipCodes: zipCode ? [zipCode] : undefined,
         ageMin: ageRange[0],
@@ -63,9 +68,6 @@ const HomePage: React.FC = () => {
         sort,
       });
 
-      // 2) From the search results, fetch dog objects
-      //    We only need up to `pageSize` dogs, but if the API returns exactly those IDs
-      //    Then we can just do:
       const dogData = await fetchDogsByIds(res.resultIds);
 
       setDogs(dogData);
@@ -79,9 +81,7 @@ const HomePage: React.FC = () => {
   };
 
   const handleFilter = () => {
-    // Just reset to page 1 whenever filters change
     setCurrentPage(1);
-    fetchData();
   };
 
   const handleReset = () => {
@@ -97,9 +97,52 @@ const HomePage: React.FC = () => {
     setPageSize(newPageSize);
   };
 
+  const handleToggleFavorite = (dogId: string) => {
+    setFavoriteIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(dogId)) {
+        newSet.delete(dogId);
+      } else {
+        newSet.add(dogId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleGenerateMatch = async () => {
+    if (favoriteIds.size === 0) {
+      message.warn("You haven't favorited any dogs!");
+      return;
+    }
+
+    try {
+      setLoadingMatch(true);
+
+      const matchId = await matchDogs(Array.from(favoriteIds));
+
+      let foundDog = dogs.find((d) => d.id === matchId);
+      if (!foundDog) {
+        const [dogDetail] = await fetchDogsByIds([matchId]);
+        foundDog = dogDetail;
+      }
+
+      setMatchedDog(foundDog || null);
+      setIsMatchModalOpen(true);
+    } catch (error) {
+      console.error("Failed to generate match:", error);
+      message.error("Could not generate match. Check console.");
+    } finally {
+      setLoadingMatch(false);
+    }
+  };
+
   return (
-    <Layout style={{ backgroundColor: "#fff" }}>
-      {/* Sidebar for filters */}
+    <Layout
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom right, #071e3d, #1f4287)",
+      }}
+    >
       <Sidebar
         breeds={breedList}
         selectedBreed={breed}
@@ -115,22 +158,68 @@ const HomePage: React.FC = () => {
         isLoading={loading}
       />
 
-      {/* Main content */}
-      <Layout style={{ background: "#fff" }}>
-        <Content style={{ margin: "16px" }}>
+      <Layout style={{ background: "transparent" }}>
+        <Content
+          style={{
+            margin: 16,
+            borderRadius: 8,
+            padding: 16,
+            color: "#ffffff",
+          }}
+        >
+          <Row
+            justify="space-between"
+            align="middle"
+            style={{
+              marginBottom: 16,
+              padding: "8px 16px",
+              color: "#fff",
+            }}
+          >
+            
+            <Col>
+              <div
+                style={{
+                  color: "#21e6c1",
+                  fontSize: 16,
+                  border: "none",
+                }}
+              >
+                Favorite: {favoriteIds.size}
+              </div>
+            </Col>
+            <Col>
+              <Button
+                onClick={handleGenerateMatch}
+                loading={loadingMatch}
+                style={{
+                  backgroundColor: "#21e6c1",
+                  borderColor: "#21e6c1",
+                  color: "#071e3d",
+                  fontWeight: "bold",
+                }}
+              >
+                Generate Match
+              </Button>
+            </Col>
+          </Row>
+
           {loading ? (
-            <Spin />
+            <Spin style={{ marginTop: 24 }} />
           ) : (
             <Row gutter={[16, 16]}>
               {dogs.map((dog) => (
-                <Col key={dog.id} xs={24} sm={12} md={8} lg={6}>
-                  <DogCard dog={dog} />
+                <Col key={dog.id} xs={24} sm={6} md={6} lg={4}>
+                  <DogCard
+                    dog={dog}
+                    isFavorite={favoriteIds.has(dog.id)}
+                    onToggleFavorite={handleToggleFavorite}
+                  />
                 </Col>
               ))}
             </Row>
           )}
 
-          {/* Pagination */}
           <CustomPagination
             total={total}
             pageSize={pageSize}
@@ -138,6 +227,13 @@ const HomePage: React.FC = () => {
             onChange={handlePageChange}
           />
         </Content>
+
+        <MatchBox
+          isModalOpen={isMatchModalOpen}
+          matchedDog={matchedDog}
+          onOk={() => setIsMatchModalOpen(false)}
+          onCancel={() => setIsMatchModalOpen(false)}
+        />
       </Layout>
     </Layout>
   );

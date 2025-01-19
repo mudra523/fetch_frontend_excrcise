@@ -2,26 +2,25 @@ import React, { useState } from "react";
 import { AppProps } from "next/app";
 import MainLayout from "@/components/Layout/MainLayout";
 import { logout } from "@/services/auth";
+import { useRouter } from "next/router"; 
 import "antd/dist/reset.css";
-// or "antd/dist/antd.css", depending on your setup
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // Track if user is logged in.
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
-  // When user logs in successfully (see signin page), we set this to true
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
 
   const handleLogout = async () => {
     try {
-      await logout(); // call /auth/logout
+      await logout();
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error("Error during logout:", error);
     } finally {
       setIsLoggedIn(false);
-    }
+      router.push("/signin"); 
   };
 
   return (

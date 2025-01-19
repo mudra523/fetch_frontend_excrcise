@@ -5,19 +5,20 @@ const { Sider } = Layout;
 const { Option } = Select;
 
 interface SidebarProps {
-  breeds: string[];                       // All possible breeds you want to show
-  selectedBreed: string | null;          // or undefined
+  breeds: string[];
+  selectedBreed: string | null;
   zipCode: string;
   ageRange: [number, number];
-  sortValue: string;                     // "breed:asc" etc.
+  sortValue: string;
   onChangeBreed: (breed: string | null) => void;
   onChangeZip: (zip: string) => void;
   onChangeAgeRange: (range: [number, number]) => void;
   onChangeSort: (sort: string) => void;
-  onFilter: () => void;                  // triggers parent fetch
   onReset: () => void;
   isLoading: boolean;
 }
+
+const labelStyle = { color: "#21e6c1", fontWeight: "bold" };
 
 const Sidebar: React.FC<SidebarProps> = ({
   breeds,
@@ -29,20 +30,26 @@ const Sidebar: React.FC<SidebarProps> = ({
   onChangeZip,
   onChangeAgeRange,
   onChangeSort,
-  onFilter,
   onReset,
   isLoading,
 }) => {
   return (
-    <Sider width={250} style={{ padding: "16px", backgroundColor: "#f0f2f5" }}>
-      <Form layout="vertical">
-        {/* Breed Selection */}
-        <Form.Item label="Breed">
+    <Sider
+      width={250}
+      style={{
+        padding: "16px",
+        backgroundColor: "#071e3d", 
+        color: "#fff",
+      }}
+    >
+      <Form layout="vertical" style={{ color: "#fff" }}>
+        <Form.Item label={<span style={labelStyle}>Breed</span>}>
           <Select
             placeholder="Select breed"
             allowClear
             value={selectedBreed || undefined}
             onChange={(val) => onChangeBreed(val || null)}
+            style={{ backgroundColor: "#fff" }} 
           >
             {breeds.map((breed) => (
               <Option key={breed} value={breed}>
@@ -52,18 +59,17 @@ const Sidebar: React.FC<SidebarProps> = ({
           </Select>
         </Form.Item>
 
-        {/* Zip Code Input */}
-        <Form.Item label="Zip Code">
+        <Form.Item label={<span style={labelStyle}>Zip Code</span>}>
           <Input
             placeholder="Enter zip code"
             maxLength={5}
             value={zipCode}
             onChange={(e) => onChangeZip(e.target.value)}
+            style={{ backgroundColor: "#fff" }} 
           />
         </Form.Item>
 
-        {/* Age Range Slider */}
-        <Form.Item label="Age Range">
+        <Form.Item label={<span style={labelStyle}>Age Range</span>}>
           <Slider
             range
             min={1}
@@ -73,12 +79,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           />
         </Form.Item>
 
-        {/* Sort Selection */}
-        <Form.Item label="Sort By">
+        <Form.Item label={<span style={labelStyle}>Sort By</span>}>
           <Select
             placeholder="Select sorting"
             value={sortValue}
             onChange={(val) => onChangeSort(val)}
+            style={{ backgroundColor: "#fff" }} 
           >
             <Option value="breed:asc">Breed (Asc)</Option>
             <Option value="breed:desc">Breed (Desc)</Option>
@@ -89,15 +95,18 @@ const Sidebar: React.FC<SidebarProps> = ({
           </Select>
         </Form.Item>
 
-        {/* Action Buttons */}
         <Row gutter={[8, 8]}>
           <Col span={12}>
-            <Button type="primary" block onClick={onFilter} loading={isLoading}>
-              Filter
-            </Button>
-          </Col>
-          <Col span={12}>
-            <Button block onClick={onReset}>
+            <Button
+              type="primary"
+              onClick={onReset}
+              style={{
+                backgroundColor: "#21e6c1",  
+                borderColor: "#21e6c1",
+                color: "#071e3d",            
+                fontWeight: "bold",
+              }}
+            >
               Reset
             </Button>
           </Col>

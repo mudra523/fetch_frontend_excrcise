@@ -15,8 +15,15 @@ const CustomPagination: React.FC<PaginationProps> = ({
   onChange,
 }) => {
   return (
+    <div
+    style={{
+      marginTop: 16,
+      padding: "16px",
+      backgroundColor: "#f0fcff",
+      borderRadius: 8,
+    }}
+  >
     <Pagination
-      style={{ marginTop: 16 }}
       total={total}
       pageSize={pageSize}
       current={current}
@@ -25,6 +32,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
       showQuickJumper
       pageSizeOptions={["5", "10", "20", "50"]}
     />
+    </div>
   );
 };
 
