@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Form, Input, message, Card, Typography } from "antd";
 import { login } from "@/services/auth";
-import { useRouter } from "next/router";
 
 type SignInProps = {
   onLoginSuccess: () => void;
@@ -10,7 +9,6 @@ type SignInProps = {
 const { Title } = Typography;
 
 const SignIn: React.FC<SignInProps> = ({ onLoginSuccess }) => {
-  const router = useRouter();
 
   const onFinish = async (values: { name: string; email: string }) => {
     try {
@@ -23,7 +21,7 @@ const SignIn: React.FC<SignInProps> = ({ onLoginSuccess }) => {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
   };
 

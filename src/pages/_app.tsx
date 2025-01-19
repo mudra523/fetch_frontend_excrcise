@@ -20,7 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       console.error("Error during logout:", error);
     } finally {
       setIsLoggedIn(false);
-      router.push("/signin"); 
+      router.push("/signin");  // Redirect to sign-in page after logout
+    }
   };
 
   return (

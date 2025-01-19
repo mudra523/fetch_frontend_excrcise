@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Layout, Spin, message, Button, Tag } from "antd";
+import { Row, Col, Layout, Spin, message, Button } from "antd";
 import Sidebar from "@/components/Sidebar";
 import DogCard from "@/components/DogCard";
 import MatchBox from "@/components/MatchBox";

@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Row, Col } from "antd";
-import Header from "../components/Layout/Header";
+import HeaderWeb from "../components/Layout/Header";
 import Footer from "../components/Layout/Footer";
 
 const geistSans = Geist({
@@ -24,7 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AntdRegistry>
-          <Header />
+          <HeaderWeb isLoggedIn={false} onLogout={function (): void {
+            throw new Error("Function not implemented.");
+          } } />
           <Row justify="center" className=" bg-base-500">
             <Col xs={24} sm={24} md={22} lg={22}>
               <main>{children}</main>

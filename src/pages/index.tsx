@@ -35,7 +35,7 @@ export default function Home() {
         }}
       >
         <Title level={1} style={{ color: "#fff" }}>
-          Welcome to the Dog's Home
+         {" Welcome to the Dog's Home"}
         </Title>
         <Paragraph style={{ fontSize: "1.2rem", marginBottom: "2rem", color: "#fff" }}>
           Find your perfect furry companion. Log in now to view and favorite available dogs from various shelters.

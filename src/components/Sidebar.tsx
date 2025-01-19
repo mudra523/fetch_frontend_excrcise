@@ -31,7 +31,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   onChangeAgeRange,
   onChangeSort,
   onReset,
-  isLoading,
 }) => {
   return (
     <Sider
