@@ -21,7 +21,9 @@ interface SearchResponse {
 export async function searchDogs(params: SearchParams) {
   const searchParams = new URLSearchParams();
 
-  if (params.size) searchParams.set("size", String(params.size));
+  if (params.size) {
+    searchParams.set("size", String(params.size));
+  }
   if (typeof params.from === "number") {
     searchParams.set("from", String(params.from));
   }
@@ -41,15 +43,23 @@ export async function searchDogs(params: SearchParams) {
     searchParams.set("sort", params.sort);
   }
 
-  const url = `/dogs/search?${searchParams.toString()}`;
+  // Check if any query parameters have been added
+  const queryString = searchParams.toString();
+  
+  // Build the URL conditionally
+  const url = queryString 
+    ? `/dogs/search?${queryString}` 
+    : `/dogs/search`;
+
   const res = await axiosClient.get<SearchResponse>(url);
-  return res.data; 
+  return res.data;
 }
 
 export async function fetchDogsByIds(ids: string[]): Promise<Dog[]> {
   const res = await axiosClient.post<Dog[]>("/dogs", ids);
   return res.data; 
 }
+
 export async function getBreeds(): Promise<string[]> {
   const res = await axiosClient.get<string[]>("/dogs/breeds");
   return res.data; 

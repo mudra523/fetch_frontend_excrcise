@@ -13,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       }
     );
-    console.log("response", response.headers)
     const cookies = response.headers['set-cookie'];
     if (cookies) {
       res.setHeader('Set-Cookie', cookies);
@@ -21,6 +20,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(response.status).json(response.data);
   } catch (error: unknown) {
+
+    console.log("error", error.headers)
     let errorMessage = 'Proxy login failed';
     let status = 500;
 

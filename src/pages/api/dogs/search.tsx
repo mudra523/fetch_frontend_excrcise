@@ -14,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       }
     );
+    // console.log("response", response.headers)
 
     res.status(response.status).json(response.data);
   } catch (error: unknown) {
