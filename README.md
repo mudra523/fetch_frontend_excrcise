@@ -79,7 +79,7 @@ Below are some screenshots of the application:
 
 ## Live Demo
 
-Check out the live version of the application here: [Live Site Link](https://your-live-site-url.com)
+Check out the live version of the application here: [Live Site Link](https://fetch-frontend-excrcise.vercel.app/)
 
 ---
 
@@ -96,5 +96,7 @@ To run this project locally, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/mudra523/fetch_frontend_excrcise.git
+   cd fetch_frontend_excrcise
+   npm install
+   npm run dev
