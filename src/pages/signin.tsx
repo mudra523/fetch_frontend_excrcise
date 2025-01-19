@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form, Input, message, Card, Typography } from "antd";
 import { login } from "@/services/auth";
+import { useRouter } from "next/router";
 
 type SignInProps = {
   onLoginSuccess: () => void;
@@ -9,19 +10,21 @@ type SignInProps = {
 const { Title } = Typography;
 
 const SignIn: React.FC<SignInProps> = ({ onLoginSuccess }) => {
+  const router = useRouter();
 
   const onFinish = async (values: { name: string; email: string }) => {
     try {
       await login(values.name, values.email);
       message.success("Logged in successfully!");
-      onLoginSuccess(); 
+      onLoginSuccess();
+      router.push("/homepage");
     } catch (err) {
       console.error("Login error", err);
       message.error("Login failed. Check console.");
     }
   };
 
-  const onFinishFailed = (errorInfo: unknown) => {
+  const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
 
@@ -34,24 +37,24 @@ const SignIn: React.FC<SignInProps> = ({ onLoginSuccess }) => {
         alignItems: "center",
         justifyContent: "center",
         padding: "1rem",
-        backgroundColor: "#071e3d", 
+        backgroundColor: "#071e3d",
       }}
     >
       <Card
         style={{
           maxWidth: 500,
           width: "100%",
-          backgroundColor: "#1f4287",   
+          backgroundColor: "#1f4287", // deep blue card background
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
           borderRadius: 8,
         }}
       >
-        <Title 
-          level={3} 
-          style={{ 
-            textAlign: "center", 
-            marginBottom: "1.5rem", 
-            color: "#21e6c1"  
+        <Title
+          level={3}
+          style={{
+            textAlign: "center",
+            marginBottom: "1.5rem",
+            color: "#21e6c1", // bright teal for title
           }}
         >
           Sign In
@@ -70,18 +73,29 @@ const SignIn: React.FC<SignInProps> = ({ onLoginSuccess }) => {
             name="name"
             rules={[{ required: true, message: "Please input your Name!" }]}
           >
-            <Input 
-              style={{ backgroundColor: "#071e3d", color: "#fff", borderColor: "#278ea5" }}
+            <Input
+              style={{
+                backgroundColor: "#071e3d",
+                color: "#fff",
+                borderColor: "#278ea5",
+              }}
             />
           </Form.Item>
 
           <Form.Item
             label={<span style={{ color: "#21e6c1" }}>Email</span>}
             name="email"
-            rules={[{ required: true, message: "Please input your Email!" }]}
+            rules={[
+              { required: true, message: "Please input your Email!" },
+              { type: "email", message: "The input is not a valid email!" },
+            ]}
           >
-            <Input 
-              style={{ backgroundColor: "#071e3d", color: "#fff", borderColor: "#278ea5" }}
+            <Input
+              style={{
+                backgroundColor: "#071e3d",
+                color: "#fff",
+                borderColor: "#278ea5",
+              }}
             />
           </Form.Item>
 
@@ -91,8 +105,8 @@ const SignIn: React.FC<SignInProps> = ({ onLoginSuccess }) => {
               htmlType="submit"
               block
               style={{
-                backgroundColor: "#21e6c1", 
-                borderColor: "#21e6c1", 
+                backgroundColor: "#21e6c1",
+                borderColor: "#21e6c1",
                 color: "#071e3d",
               }}
             >
