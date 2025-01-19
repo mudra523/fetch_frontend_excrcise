@@ -143,7 +143,6 @@ const HomePage: React.FC = () => {
         background: "linear-gradient(to bottom right, #071e3d, #1f4287)",
       }}
     >
-      {/* {console.log("Home", dogs)} */}
       <Sidebar
         breeds={breedList}
         selectedBreed={breed}
