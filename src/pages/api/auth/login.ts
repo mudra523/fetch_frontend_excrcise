@@ -23,11 +23,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(response.status).json(response.data);
   } catch (error: unknown) {
     let errorMessage = 'Proxy login failed';
-    if (error instanceof Error) {
+    let status = 500;
+
+    if (axios.isAxiosError(error)) {
+      status = error.response?.status || 500;
+      errorMessage = error.message;
+    } else if (error instanceof Error) {
       errorMessage = error.message;
     }
+
     console.error('Proxy login error:', errorMessage);
-    const status = (error && typeof error === 'object' && 'response' in error && (error as any).response?.status) || 500;
     res.status(status).json({ error: errorMessage });
   }
 }
