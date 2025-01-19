@@ -1,24 +1,35 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
+import type { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
-    const query = req.url?.split('?')[1] || '';
-    const response = await axios.get(
-      `https://frontend-take-home-service.fetch.com/dogs/search?${query}`, 
-      {
-        withCredentials: true,
-        headers: {
-          'Content-Type': req.headers['content-type'] || 'application/json',
-          Cookie: req.headers.cookie || '', // Forward cookies from client
-        },
-      }
-    );
-    // console.log("response", response.headers)
+    // Extract query string from the request URL (if any)
+    const query = req.url?.split("?")[1] || "";
 
+    // Build the target URL for the external service
+    // If there's a query, append it with a leading '?'
+    const targetUrl = `https://frontend-take-home-service.fetch.com/dogs/search${
+      query ? `?${query}` : ""
+    }`;
+
+    // Make the request to the external service
+    const response = await axios.get(targetUrl, {
+      withCredentials: true,
+      headers: {
+        // Forward content-type
+        "Content-Type": req.headers["content-type"] || "application/json",
+        // Forward cookies from the client request
+        Cookie: req.headers.cookie || "",
+      },
+    });
+
+    // Respond to the client with the external service's response
     res.status(response.status).json(response.data);
-  } catch (error: unknown) {
-    let errorMessage = 'Proxy searchDogs failed';
+  } catch (error) {
+    let errorMessage = "Proxy searchDogs failed";
     let status = 500;
 
     if (axios.isAxiosError(error)) {
@@ -28,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       errorMessage = error.message;
     }
 
-    console.error('Proxy searchDogs error:', errorMessage);
+    console.error("Proxy searchDogs error:", errorMessage);
     res.status(status).json({ error: errorMessage });
   }
 }

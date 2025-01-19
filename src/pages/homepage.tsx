@@ -6,6 +6,7 @@ import BoxMatch from "@/components/BoxMatch";
 import CustomPagination from "@/components/Pagination";
 import { searchDogs, fetchDogsByIds, matchDogs } from "@/services/dogs";
 import { Dog } from "@/utils/types";
+import axios from "axios";
 
 const { Content } = Layout;
 
@@ -36,26 +37,25 @@ const HomePage: React.FC = () => {
 
   const fetchBreeds = async () => {
     try {
-      const res = await fetch(
+      const response = await axios.get<string[]>(
         "https://frontend-take-home-service.fetch.com/dogs/breeds",
-        { credentials: "include" }
+        {
+          withCredentials: true, 
+        },
+        
       );
-      if (!res.ok) {
-        console.warn("Failed to fetch breed list");
-        return;  
-      }
-      const data = await res.json();
-      setBreedList(data);
+  
+      setBreedList(response.data);
     } catch (error) {
-      console.error("Failed to fetch breeds", error);
+      console.error("Failed to fetch breeds:", error);
     }
   };
 
   useEffect(() => {
     fetchData();
   }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);
-
-  const fetchData = async () => {
+  
+  const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
       const res = await searchDogs({
@@ -78,7 +78,7 @@ const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  });
 
 
   const handleFilter = () => {
@@ -144,21 +144,6 @@ const HomePage: React.FC = () => {
         background: "linear-gradient(to bottom right, #071e3d, #1f4287)",
       }}
     >
-      <Sidebar
-        breeds={breedList}
-        selectedBreed={breed}
-        zipCode={zipCode}
-        ageRange={ageRange}
-        sortValue={sort}
-        onChangeBreed={setBreed}
-        onChangeZip={setZipCode}
-        onChangeAgeRange={setAgeRange}
-        onChangeSort={setSort}
-        onFilter={handleFilter}
-        onReset={handleReset}
-        isLoading={loading}
-      />
-
       <Layout style={{ background: "transparent" }}>
         <Content
           style={{
@@ -236,6 +221,21 @@ const HomePage: React.FC = () => {
           onCancel={() => setIsMatchModalOpen(false)}
         />
       </Layout>
+      <Sidebar
+        breeds={breedList}
+        selectedBreed={breed}
+        zipCode={zipCode}
+        ageRange={ageRange}
+        sortValue={sort}
+        onChangeBreed={setBreed}
+        onChangeZip={setZipCode}
+        onChangeAgeRange={setAgeRange}
+        onChangeSort={setSort}
+        onFilter={handleFilter}
+        onReset={handleReset}
+        isLoading={loading}
+      />
+
     </Layout>
   );
 };
