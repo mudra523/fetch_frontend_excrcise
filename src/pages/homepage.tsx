@@ -74,11 +74,11 @@ const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  });
+  }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);;
 
   useEffect(() => {
     fetchData();
-  }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);
+  }, [fetchData]);
 
   const handleFilter = () => {
     setCurrentPage(1);
