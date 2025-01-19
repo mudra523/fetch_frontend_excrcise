@@ -62,16 +62,16 @@ This application fulfills the requirements of the Fetch Frontend Take-Home Exerc
 Below are some screenshots of the application:
 
 ### Welcome Page
-![Welcome Page](link-to-welcome-page-screenshot)
+![Welcome Page](https://raw.githubusercontent.com/mudra523/fetch_frontend_excrcise/refs/heads/main/public/WelcomePage.png)
 
 ### Login Page
-![Login Page](link-to-login-page-screenshot)
+![Login Page](https://raw.githubusercontent.com/mudra523/fetch_frontend_excrcise/refs/heads/main/public/LogInPage.png)
 
 ### Home/Search Page
-![Home Page](link-to-home-page-screenshot)
+![Home Page](https://raw.githubusercontent.com/mudra523/fetch_frontend_excrcise/refs/heads/main/public/HomePage.png)
 
 ### Match Dog
-![Home Page](link-to-home-page-screenshot)
+![Home Page](https://raw.githubusercontent.com/mudra523/fetch_frontend_excrcise/refs/heads/main/public/MatchDog.png)
 
 *(Replace the placeholder links with actual URLs to your screenshots.)*
 
