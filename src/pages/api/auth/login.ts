@@ -21,7 +21,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(response.status).json(response.data);
   } catch (error: unknown) {
 
-    console.log("error", error.headers)
     let errorMessage = 'Proxy login failed';
     let status = 500;
 
