@@ -1,4 +1,9 @@
-import axiosClient from "./axiosClient";
+import axios from 'axios';
+
+const axiosClient = axios.create({
+  baseURL: "/api", 
+  withCredentials: true,
+});
 
 export async function login(name: string, email: string) {
   const res = await axiosClient.post("/auth/login", { name, email });
