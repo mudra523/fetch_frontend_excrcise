@@ -51,11 +51,7 @@ const HomePage: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);
-
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
       const res = await searchDogs({
@@ -78,7 +74,11 @@ const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [breed, zipCode, ageRange, sort, currentPage, pageSize]);;
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleFilter = () => {
     setCurrentPage(1);
@@ -111,7 +111,7 @@ const HomePage: React.FC = () => {
 
   const handleGenerateMatch = async () => {
     if (favoriteIds.size === 0) {
-      message.warn("You haven't favorited any dogs!");
+      message.warning("You haven't favorited any dogs!");
       return;
     }
 

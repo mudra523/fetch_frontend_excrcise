@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "antd";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { Dog } from "@/utils/types";
+import Image from "next/image";
 
 const { Meta } = Card;
 
@@ -24,11 +25,12 @@ const DogCard: React.FC<DogCardProps> = ({ dog, isFavorite, onToggleFavorite }) 
         backgroundColor: "#f0fcff" 
       }}
       cover={
-        <img
-          alt={dog.name}
-          src={dog.img}
-          style={{ height: 200, objectFit: "cover" }}
-        />
+        <Image
+      alt={dog.name}
+      src={dog.img}
+      layout="fill"
+      objectFit="cover"
+    />
       }
       actions={[
         isFavorite ? (

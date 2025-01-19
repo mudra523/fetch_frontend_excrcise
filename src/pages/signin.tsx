@@ -24,10 +24,10 @@ const SignIn: React.FC<SignInProps> = ({ onLoginSuccess }) => {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
   };
-
+  
   return (
     <div
       style={{

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Modal, Card, Row } from "antd";
 import { Dog } from "@/utils/types";
+import Image from "next/image";
 
 interface MatchBoxProps {
   isModalOpen: boolean;
@@ -27,16 +28,16 @@ const Match: React.FC<MatchBoxProps> = ({
           type="primary"
           onClick={onOk}
           style={{
-            backgroundColor: "#21e6c1", 
+            backgroundColor: "#21e6c1",
             borderColor: "#21e6c1",
-            color: "#071e3d",          
+            color: "#071e3d",
           }}
         >
           OK
         </Button>,
       ]}
       bodyStyle={{
-        backgroundColor: "#071e3d", 
+        backgroundColor: "#071e3d",
         color: "#fff",
       }}
     >
@@ -47,20 +48,22 @@ const Match: React.FC<MatchBoxProps> = ({
             width: 240,
             borderRadius: 8,
             overflow: "hidden",
-            borderColor: "#278ea5",   
+            borderColor: "#278ea5",
             backgroundColor: "#071e3d",
-            color: "#fff",            
+            color: "#fff",
           }}
           cover={
-            <img
+            <Image
               alt={matchedDog.name}
-              src={
-                matchedDog.img }
-              style={{ height: 200, objectFit: "cover" }}
+              src={matchedDog.img}
+              layout="fill"
+              objectFit="cover"
             />
           }
         >
-          <Row style={{ marginBottom: 8, color: "#21e6c1", fontWeight: "bold" }}>
+          <Row
+            style={{ marginBottom: 8, color: "#21e6c1", fontWeight: "bold" }}
+          >
             You are matched with {matchedDog.name}!
           </Row>
           <Row>Name: {matchedDog.name}</Row>
@@ -75,5 +78,4 @@ const Match: React.FC<MatchBoxProps> = ({
   );
 };
 
-export default Match
-;
+export default Match;

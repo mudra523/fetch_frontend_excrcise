@@ -15,6 +15,7 @@ interface SidebarProps {
   onChangeAgeRange: (range: [number, number]) => void;
   onChangeSort: (sort: string) => void;
   onReset: () => void;
+  onFilter?: () => void;
   isLoading: boolean;
 }
 
